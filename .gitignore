@@ -1,0 +1,14 @@
+.DS_Store
+*.pyc
+*.pyo
+venv
+venv*
+dist
+*.egg
+*.egg-info
+_mailinglist
+*.tox
+*.whl
+app.db
+db_repository
+config.py

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+
+<html class="no-js" lang="en" >
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Askipiikkihakemus</title>
+
+  <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+  <!--<link rel="stylesheet" href="/static/css/bootstrap_pdf.css">-->
+  <link rel="stylesheet" href="/static/css/pdf.css">
+
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="row">
+    {% for user in users %}
+        <div class="col-md-10 col-md-offset-1">
+            <img src="http://as.ayy.fi/files/logot/as_plain_BW.gif" style="display:block; float:right; width:150px;"></img>
+            <h2>{{ user.name }} {{ user.surname }}</h2>
+            <h4>{{ user.email }}</h4>
+            <b>Myönnetty:</b> {{ now }} </p>
+
+            <br />
+
+            <img src="/static/img/table8.png" style="width:100%; margin-top:40px;"></img>
+
+            {#  <!-- disable for pdf generation to speed it up -->
+            <div class="" style="">
+                <table class="table-striped table-hover">
+                    <tbody>
+                    <!-- 0..18 -->
+                    {% for i in range(0,16) %}
+                        <tr>
+                            <td class="first" style="text-align: center;"><b>M</b></td>
+                            {% for i in range(0,50) %}
+                                <td class="{% if i % 5 == 0 and i != 0 %}border-solid{% endif %}"></td>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <td class="first" style="text-align: center;"><b>K</b></td>
+                            {% for i in range(0,50) %}
+                                <td class="{% if i % 5 == 0 and i != 0 %}border-solid{% endif %}"></td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:2px;border:none;"></tr>
+                        <tr style="height:2px;border:none;"></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>#}
+
+            <div class="" style="margin-top: 40px; text-align:justify;"><small>
+            <p>Tämä on henkilökohtainen ASkipiikki, joka on myönnetty paperin yläosassa olevalle henkilölle. Piikillä voi ostaa tuotteita kiltahuoneelta ASkista ilman, että pitäisi aina rahaa taskussaan. Tuotteiden hinnat löytyvät ASkin keittiöstä.</p>
+
+            <p>Piikin käyttö: Ristikon <b>alariviin merkataan kulutetut (K)</b> rahamäärät siten, että <b>1 rasti = 0.20 euroa</b>. Täten ostaessasi 1 euron tuotteen merkkaat kulutetulle riville (K) 5 rastia jne. Ristikon <b>ylärivi on puolestaan maksettu summa (M)</b>. Eli kun maksat piikkiäsi bufferiin 10 euron edestä, lisäät riville 50 rastia jne. <b>Piikin täytyy olla aina positiivinen</b>, eli sinulla on enemmän rahaa maksettuna kun käytettynä piikkiin. Jos piikkiä ei käytetä oikein tai muuten perseillään, ASkivahdeilla on täysi oikeus evätä henkilöltä piikin käyttö. Kysymyksien sattuessa ota yhteyttä lähimpään ASKIvahtiisi.</p></small>
+            </div>
+
+            <p style="page-break-before: always" ></p>  <!-- Next Page -->
+        </div>
+    {% endfor %}
+    </div>
+  </div>
+
+  <script src="/static/js/jquery-2.1.1.min.js"></script>
+  <script src="/static/js/custom.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+  <script type=text/javascript>
+    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+  </script>
+
+</body>
+
+</html>

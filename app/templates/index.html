@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row">
+
+    <div class="col-md-10 col-md-offset-1">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Askipiikki</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <p>
+                        Maaliskuussa 2015 siirrymme täysin uuteen piikkikäytäntöön.
+                    </p>
+                    <p>
+                        Uuden piikin perusideat:
+                        <ol type="1">
+                            <li>Piikki saa olla vain ja ainoastaan positiivinen.</li>
+                            <li>Yleisen piikkivihkon sijaan jokaiselle on varattu oma henkilökohtainen piikkisivu (max 80e/sivu).</li>
+                            <li>Piikki anotaan ASkivahdeilta.</li>
+                            <li>Perseily johtaa piikin menettämiseen.</li>
+                        </ol>
+                    </p>
+                    <p>
+                        Tältä sivulta käsin voit tehdä hakemuksen täyttämällä tiedot alla olevaan lomakkeeseen ja varmistamalla sähköpostiosoitteesi toimivuuden.
+                        Uusi piikkisivusi tulostetaan ja ilmestyy Askin piikkikansioon myöhemmin.
+                    </p>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <form action="/" method="post", name="credentials">
+                        <label class="control-label" for="name">Etunimi</label>
+                        <input class="form-control" id="name" name="name" type="text">
+
+                        <label class="control-label" for="surname">Sukunimi</label>
+                        <input class="form-control" id="surname" name="surname" type="text">
+
+                        <label class="control-label" for="email">Sähköposti</label>
+                        <input class="form-control" id="email" name="email" type="text">
+                        <span class="help-block">Vain aalto.fi -päätteiset sähköpostiosoitteet hyväksytään</span>
+
+                        <button type="submit" class="btn btn-primary">Ano piikkiä!</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+<
