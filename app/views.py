@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify, m
 from sqlalchemy import and_
 from app import models, db, app, forms, mail
 from flask.ext.mail import Message, Mail
-from config import ADMINS, HOST_BASE, MSG_TEXT
+from config import ADMINS, HOST_BASE, MSG_TEXT, NEW_USERS_BEFORE_ADMIN_MAIL
 import json
 import datetime
 
@@ -32,6 +32,13 @@ def verify_email(verification_str):
     if u:
         u.verified = True
         db.session.commit()
+
+        # is this a stupid way to handle sending mail to admins?
+        new_users = models.Aasi.query.filter_by(verified=True, print_version=0).count()
+        if new_users >= NEW_USERS_BEFORE_ADMIN_MAIL:
+            latest = db.session.query(db.func.max(models.Aasi.print_version)).one()[0]
+            _send_admin_mail(latest+1)
+
         return render_template('success.html')
 
     return "your email is not yet verified!"
@@ -78,14 +85,18 @@ def generate_pdf(version=None):
     #return html
 
     # TODO: send the pdf to all the admins
-    # TODO: update revision
 
 @app.route("/debug")
 def debug():
+    """
+        Prints all users.
+        Add a query parameter reset=True, to reset
+        all print_versions
+    """
     users = models.Aasi.query.all()
 
     res = request.args.get('reset')
-    print res
+
     if res == 'True':
         for user in users:
             user.print_version = 0
@@ -96,7 +107,6 @@ def debug():
     return jsonify(json_list = [u.as_dict() for u in users])
 
 def _send_verification_mail(aasi):
-    # TODO: modify the layout of the email
     msg = Message('Askipiikin verifiointi', sender=ADMINS[0])
     msg.add_recipient(aasi.email)
 
@@ -105,3 +115,17 @@ def _send_verification_mail(aasi):
     msg.html = MSG_TEXT.format(link=verify_link)
 
     mail.send(msg)
+
+def _send_admin_mail(version):
+    # TODO: test this
+    msg = Message('Askipiikkiprintit versio {}'.format(version), sender=ADMINS[0])
+    msg.html = "Printtaa uudet piikit: <a href=" + HOST_BASE + url_for('generate_pdf', version=version) + ">versio {}</a>".format(version)
+
+    print "Sending admin mail nao!"
+    print msg.html
+
+    for email in ADMINS:
+        print "Sent mail to " + email
+        temp = msg
+        temp.add_recipient(email)
+        mail.send(temp)
