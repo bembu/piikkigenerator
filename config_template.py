@@ -1,3 +1,8 @@
+"""
+    This is the template for the config file. Add proper mail credentials here
+    and rename this file to config.py
+"""
+
 import os
 
 SECRET_KEY = 'random_secret_key_here'

@@ -31,15 +31,30 @@
 
                 <div class="form-group col-md-6">
                     <form action="/" method="post", name="credentials">
+
+                        {{ form.hidden_tag() }}
+
                         <label class="control-label" for="name">Etunimi</label>
-                        <input class="form-control" id="name" name="name" type="text">
+                        <!--<input class="form-control" id="name" name="name" type="text">-->
+                        {{ form.name(class_="form-control")}}
+                        {% for error in form.name.errors %}
+                        <span class="help-block" style="color: red;">{{ error }}</span>
+                        {% endfor %}
 
                         <label class="control-label" for="surname">Sukunimi</label>
-                        <input class="form-control" id="surname" name="surname" type="text">
+                        <!--<input class="form-control" id="surname" name="surname" type="text">-->
+                        {{ form.surname(class_="form-control")}}
+                        {% for error in form.surname.errors %}
+                        <span class="help-block" style="color: red;">{{ error }}</span>
+                        {% endfor %}
 
                         <label class="control-label" for="email">Sähköposti</label>
-                        <input class="form-control" id="email" name="email" type="text">
+                        <!--<input class="form-control" id="email" name="email" type="text">-->
+                        {{ form.email(class_="form-control")}}
                         <span class="help-block">Vain aalto.fi -päätteiset sähköpostiosoitteet hyväksytään</span>
+                        {% for error in form.email.errors %}
+                        <span class="help-block" style="color: red;">{{ error }}</span>
+                        {% endfor %}
 
                         <button type="submit" class="btn btn-primary">Ano piikkiä!</button>
                     </form>

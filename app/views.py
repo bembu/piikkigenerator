@@ -9,7 +9,8 @@ import datetime
 def index():
     form = forms.CredentialsForm()
 
-    if request.method == 'POST':
+    if form.validate_on_submit():
+    #if request.method == 'POST':
         #TODO: validation doesn't currently work!!
         #TODO: if the email is entered again (and already verified), clear the printed variable
 
@@ -26,7 +27,7 @@ def index():
 
         return redirect(url_for('form_success'))
 
-    return render_template('index.html')
+    return render_template('index.html', form=form)
 
 @app.route("/verify/<verification_str>")
 def verify_email(verification_str):
@@ -42,11 +43,13 @@ def verify_email(verification_str):
 
 @app.route("/success", methods=['GET'])
 def form_success():
+    # TODO: Create a success template
     return redirect(url_for('debug'))
 
 @app.route("/pdf")
 def generate_pdf():
     import StringIO
+    # TODO: think of a way to do this nicely
 
     from flask_weasyprint import HTML, render_pdf
 
@@ -61,6 +64,7 @@ def generate_pdf():
     return render_template('piikki.html', users=users, now=now)
 
     # TODO: send the pdf to all the admins
+    # TODO: update revision
 
 @app.route("/debug")
 def debug():
@@ -68,6 +72,7 @@ def debug():
     return jsonify(json_list = [u.as_dict() for u in users])
 
 def _send_verification_mail(aasi):
+    # TODO: modify the layout of the email
     msg = Message('Askipiikki verification', sender=ADMINS[0])
     msg.add_recipient(aasi.email)
     msg.html = "Hello tuusi muusi. <br /> <a href='" + HOST_ROOT + url_for('verify_email', verification_str=aasi.verification_string) + "'>verifioi</a>"
